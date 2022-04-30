@@ -1,0 +1,82 @@
+{% extends 'student_template/base_template.html' %}
+
+{% block page_title %}
+    Result
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+{% load mathfilters %}
+
+
+<section class="content">
+        <div class="container-fluid">
+
+            
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Result</h3>
+                        </div>
+
+                        <div class="card-body">
+                           <div class="table-responsive">
+                               {% if results %}
+                                <table class="table">
+                                    <thead class="thead-light">
+                                    <tr>
+                                        <th>#ID</th>
+                                        <th>Name</th>
+                                        <th>Subject</th>
+                                        <th>Assignments </th>
+                                        <th>Test</th>
+                                        <th>Exam Marks</th>
+                                        <th><b>TotalMarks</b></th>
+                                        <th><b>Average</b></th>
+                                        <th>status</th>
+                                    </tr>
+                                    </thead>
+                                    
+                                    {% for result in results %}
+                                    <tr>
+                                        <td>{{ result.id }}</td>
+                                        <td>{{ result.student.admin.first_name }}</td>
+                                        <td>{{ result.subject.subject_name }}</td>
+                                        <td>{{ result.assignment_marks }}</td>
+                                        <td>{{ result.test_marks }}</td>
+                                        <td>{{ result.exam_marks }}</td>
+                                        <td><b>{{ result.get_total_scores }}</b></td>
+                                         
+                                         {% comment %} <td><b>{{ subject }}</b></td>  {% endcomment %}
+                                        <td>{{ result.get_total_scores |div:subject|floatformat }}</td> 
+                                        <td>
+                                            {% if result.exam_marks >= 40 %}
+                                                <span class="alert alert-success" >Pass</span>
+                                            {% else %}
+                                                <span class="alert alert-danger" >Fail</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                                {% else %}
+                                <h1>No result yet for this term...</h1>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+      </section>
+
+  {% endblock main_content %}
+
+{% block custom_js %}
+
+{% endblock custom_js %}
